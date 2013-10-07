@@ -10,6 +10,8 @@ Ext.define('CustomApp', {
                 { 'x': 'Swerve','Keep Going' : '-2,2', 'Swerve' : '0,0' }
             ]
         });
+       
+        this._play();
         
         var myGrid = Ext.create('Ext.grid.Panel', {
             title: 'matrix',
@@ -26,6 +28,10 @@ Ext.define('CustomApp', {
             width: 307
         });
         this.add(myGrid);
+        
+        
+        
+    
         
         this.add(
         {
@@ -104,5 +110,48 @@ Ext.define('CustomApp', {
                 }]
             }
         });
+    },
+    _play:function(){
+        this._data = [[0,0],[0,0]];
+        var rounds = 10;
+        var players = 2;
+        var moves = [[],[]];
+        var notRandom = ['keep going','swerve','swerve','swerve','swerve'];
+        for (var p=0;p<players;p++) {
+            for (var i = 0; i<rounds; i++) {
+                var x = Math.floor(Math.random()*notRandom.length);
+                moves[p].push(notRandom[x]);
+                if (p===players-1) {
+                   if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "keep going")) {
+                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
+                    console.log("-10,-10");
+                   }
+                   else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "keep going")) {
+                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
+                    console.log("-2,2");
+                   }
+                   else if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "swerve")) {
+                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
+                    console.log("2,-2");
+                   }
+                   else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "swerve")) {
+                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
+                    console.log("0,0");
+                   }
+                }
+            }
+        }
+        
+        
+            
+        console.log('moves',moves)
+
+        
+        for (var p=0;p<players;p++) {
+            for (var i = 0; i<rounds; i++) {
+                console.log(p,i);
+                console.log(moves[p][i]);   
+            }
+        }
     }
 });
