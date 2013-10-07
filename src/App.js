@@ -107,7 +107,7 @@ Ext.define('CustomApp', {
         });
     },
     _play:function(){
-        this._data = [[0,0],[0,0]];
+        this._data = [[0,0,''],[0,0,'']];
         var rounds = 10;
         var players = 2;
         this._moves = [[],[]];
@@ -118,26 +118,22 @@ Ext.define('CustomApp', {
                 this._moves[p].push(notRandom[x]);
                 if (p===players-1) { 
                    if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "keep going")) {
-                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
-                    this._data[p][i]=[i, -10];
-                    this._data[p-1][i]=[i, -10];
+                    this._data[p][i]=[i, -10,this._moves[p][i] ];
+                    this._data[p-1][i]=[i, -10,this._moves[p-1][i]];
                     
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "keep going")) {
-                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
-                    this._data[p][i]=[i, -2];
-                    this._data[p-1][i]=[i, 2];
+                    this._data[p][i]=[i, -2,this._moves[p][i]];
+                    this._data[p-1][i]=[i, 2,this._moves[p-1][i]];
                     
                    }
                    else if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "swerve")) {
-                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
-                    this._data[p][i]=[i, 2];
-                    this._data[p-1][i]=[i, -2];
+                    this._data[p][i]=[i, 2,this._moves[p][i]];
+                    this._data[p-1][i]=[i, -2,this._moves[p-1][i]];
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "swerve")) {
-                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
-                    this._data[p][i]=[i, 0];
-                    this._data[p-1][i]=[i, 0];
+                    this._data[p][i]=[i, 0,this._moves[p][i]];
+                    this._data[p-1][i]=[i, 0,this._moves[p-1][i]];
                    }
                 }
                 
