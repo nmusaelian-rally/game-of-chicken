@@ -28,11 +28,6 @@ Ext.define('CustomApp', {
             width: 307
         });
         this.add(myGrid);
-        
-        
-        
-    
-        
         this.add(
         {
             xtype: 'rallychart',
@@ -101,12 +96,12 @@ Ext.define('CustomApp', {
             chartData: {
                 series: [{
                     name: 'Player 1',
+                    data: this._data[0],
                     color: 'rgba(223, 83, 83, .5)',
-                    data: [[1,0], [2,-2],[3,0],[4,2],[5,-10],[6,0]]
                 }, {
                     name: 'Player 2',
-                    color: 'rgba(119, 152, 191, .5)',
-                    data: [[1,0], [2,2],[3,0],[4,-2],[5,-10],[6,0]]
+                    data: this._data[1],
+                    color: 'rgba(119, 152, 191, .5)'
                 }]
             }
         });
@@ -115,53 +110,53 @@ Ext.define('CustomApp', {
         this._data = [[0,0],[0,0]];
         var rounds = 10;
         var players = 2;
-        var moves = [[],[]];
+        this._moves = [[],[]];
         var notRandom = ['keep going','swerve','swerve','swerve','swerve'];
         for (var p=0;p<players;p++) {
             for (var i = 0; i<rounds; i++) {
                 var x = Math.floor(Math.random()*notRandom.length);
-                moves[p].push(notRandom[x]);
-                if (p===players-1) {
-                   if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "keep going")) {
-                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
-                    console.log("-10,-10");
+                this._moves[p].push(notRandom[x]);
+                if (p===players-1) { 
+                   if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "keep going")) {
+                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
                     this._data[p][i]=[i, -10];
                     this._data[p-1][i]=[i, -10];
                     
                    }
-                   else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "keep going")) {
-                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
-                    console.log("-2,2");
+                   else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "keep going")) {
+                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
                     this._data[p][i]=[i, -2];
                     this._data[p-1][i]=[i, 2];
                     
                    }
-                   else if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "swerve")) {
-                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
-                    console.log("2,-2");
+                   else if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "swerve")) {
+                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
                     this._data[p][i]=[i, 2];
                     this._data[p-1][i]=[i, -2];
                    }
-                   else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "swerve")) {
-                    console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
-                    console.log("0,0");
+                   else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "swerve")) {
+                    console.log("[p][i]...", this._moves[p][i], "[p-1][i]...",this._moves[p-1][i] );
                     this._data[p][i]=[i, 0];
                     this._data[p-1][i]=[i, 0];
                    }
                 }
-                console.log("DATA", this._data);
+                
+                
             }
+            console.log("DATA", this._data);
+            console.log("DATA[0]", this._data[0]);
+            console.log("DATA[1]", this._data[1]);
         }
         
         
             
-        console.log('moves',moves)
+        console.log('this._moves',this._moves)
 
         
         for (var p=0;p<players;p++) {
             for (var i = 0; i<rounds; i++) {
                 console.log(p,i);
-                console.log(moves[p][i]);   
+                console.log(this._moves[p][i]);   
             }
         }
     }
