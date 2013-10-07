@@ -125,20 +125,31 @@ Ext.define('CustomApp', {
                    if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "keep going")) {
                     console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
                     console.log("-10,-10");
+                    this._data[p][i]=[i, -10];
+                    this._data[p-1][i]=[i, -10];
+                    
                    }
                    else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "keep going")) {
                     console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
                     console.log("-2,2");
+                    this._data[p][i]=[i, -2];
+                    this._data[p-1][i]=[i, 2];
+                    
                    }
                    else if ((moves[p][i] == "keep going")&&(moves[p-1][i] === "swerve")) {
                     console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
                     console.log("2,-2");
+                    this._data[p][i]=[i, 2];
+                    this._data[p-1][i]=[i, -2];
                    }
                    else if ((moves[p][i] == "swerve")&&(moves[p-1][i] === "swerve")) {
                     console.log("[p][i]...", moves[p][i], "[p-1][i]...",moves[p-1][i] );
                     console.log("0,0");
+                    this._data[p][i]=[i, 0];
+                    this._data[p-1][i]=[i, 0];
                    }
                 }
+                console.log("DATA", this._data);
             }
         }
         
