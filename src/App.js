@@ -3,6 +3,8 @@ Ext.define('CustomApp', {
     componentCls: 'app',
 
     launch: function() {
+        var that = this;
+        var that = this;
         var store = Ext.create('Ext.data.JsonStore', {
             fields: ['x', 'Keep Going','Swerve'],
             data: [
@@ -10,8 +12,8 @@ Ext.define('CustomApp', {
                 { 'x': 'Swerve','Keep Going' : '-2,2', 'Swerve' : '0,0' }
             ]
         });
-       
-        this._play();
+       this._series = [];
+       this._play();
         
         var myGrid = Ext.create('Ext.grid.Panel', {
             title: 'matrix',
@@ -41,10 +43,10 @@ Ext.define('CustomApp', {
 		    text: 'The Game Of Chicken'
 		},
 		xAxis: {
-                title: {
-                    enabled: true,
-                    tickInterval: 1,
-                    text: 'Rounds'
+                    title: {
+                        enabled: true,
+                        tickInterval: 1,
+                        text: 'Rounds'
                 },
                 startOnTick: true,
                 endOnTick: true,
@@ -53,7 +55,7 @@ Ext.define('CustomApp', {
                 },
 		yAxis:{
 		    title: {
-                    text: 'Payoff'
+                        text: 'Payoff'
                 },
                 allowDecimals: false
 		},
@@ -66,7 +68,13 @@ Ext.define('CustomApp', {
                     floating: true,
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1
-            },
+                },
+                tooltip: {
+                        formatter: function() {
+                            var info = this.series.name + ' ' + ' ' + 'round: <b>'+ this.x +'</b> payoff <b>'+ this.y +'</b>';
+                            return info;
+                        }
+        },
                 plotOptions: {
                     scatter: {
                         marker: {
@@ -85,31 +93,26 @@ Ext.define('CustomApp', {
                                 }
                             }
                         },
+                        /*
                         tooltip: {
-                        headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: 'round: {point.x} , payoff: {point.y}'
-                        }
+                            headerFormat: '<b>{series.name}</b><br>',
+                            pointFormat: 'round: {point.x} , payoff: {point.y}'           
+                        }*/
                     }
                 },
             },
                             
             chartData: {
-                series: [{
-                    name: 'Player 1',
-                    data: this._data[0],
-                    color: 'rgba(223, 83, 83, .5)',
-                }, {
-                    name: 'Player 2',
-                    data: this._data[1],
-                    color: 'rgba(119, 152, 191, .5)'
-                }]
+                series: this._series
             }
         });
     },
     _play:function(){
-        this._data = [[0,0,''],[0,0,'']];
+        //this._data = [[0,0,''],[0,0,'']];
+        this._data = [[0,0],[0,0]];
         var rounds = 10;
         var players = 2;
+        var playersArr = ['Player 1', 'Player 2'];
         this._moves = [[],[]];
         var notRandom = ['keep going','swerve','swerve','swerve','swerve'];
         for (var p=0;p<players;p++) {
@@ -118,42 +121,49 @@ Ext.define('CustomApp', {
                 this._moves[p].push(notRandom[x]);
                 if (p===players-1) { 
                    if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "keep going")) {
-                    this._data[p][i]=[i, -10,this._moves[p][i] ];
-                    this._data[p-1][i]=[i, -10,this._moves[p-1][i]];
+                    //this._data[p][i]=[i, -10,this._moves[p][i] ];
+                    //this._data[p-1][i]=[i, -10,this._moves[p-1][i]];
+                    this._data[p][i]=[i, -10];
+                    this._data[p-1][i]=[i, -10];
                     
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "keep going")) {
-                    this._data[p][i]=[i, -2,this._moves[p][i]];
-                    this._data[p-1][i]=[i, 2,this._moves[p-1][i]];
+                    //this._data[p][i]=[i, -2,this._moves[p][i]];
+                    //this._data[p-1][i]=[i, 2,this._moves[p-1][i]];
+                    this._data[p][i]=[i, -2];
+                    this._data[p-1][i]=[i, 2];
                     
                    }
                    else if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "swerve")) {
+                    //this._data[p][i]=[i, 2,this._moves[p][i]];
+                    //this._data[p-1][i]=[i, -2,this._moves[p-1][i]];
                     this._data[p][i]=[i, 2,this._moves[p][i]];
                     this._data[p-1][i]=[i, -2,this._moves[p-1][i]];
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "swerve")) {
-                    this._data[p][i]=[i, 0,this._moves[p][i]];
-                    this._data[p-1][i]=[i, 0,this._moves[p-1][i]];
+                    //this._data[p][i]=[i, 0,this._moves[p][i]];
+                    //this._data[p-1][i]=[i, 0,this._moves[p-1][i]];
+                    this._data[p][i]=[i, 0];
+                    this._data[p-1][i]=[i, 0];
                    }
-                }
-                
-                
+                }    
             }
             console.log("DATA", this._data);
             console.log("DATA[0]", this._data[0]);
             console.log("DATA[1]", this._data[1]);
         }
+        this._series.push({
+		    	name: playersArr[0],
+		    	data: this._data[0],
+                        color: 'rgba(223, 83, 83, .5)'
+				})
+        this._series.push({
+		    	name: playersArr[1],
+		    	data: this._data[1],
+                        color: 'rgba(119, 152, 191, .5)'
+				})
         
+        console.log("series..................", this._series);
         
-            
-        console.log('this._moves',this._moves)
-
-        
-        for (var p=0;p<players;p++) {
-            for (var i = 0; i<rounds; i++) {
-                console.log(p,i);
-                console.log(this._moves[p][i]);   
-            }
-        }
     }
 });
