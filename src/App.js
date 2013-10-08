@@ -71,7 +71,7 @@ Ext.define('CustomApp', {
                 },
                 tooltip: {
                         formatter: function() {
-                            var info = this.series.name + ' ' + ' ' + 'round: <b>'+ this.x +'</b> payoff <b>'+ this.y +'</b>';
+                            var info = this.series.name + '<br> ' + ' ' + 'round: <b>'+ this.x +'</b> payoff <b>'+ this.y +'</b>' + this.point.config[2];
                             return info;
                         }
         },
@@ -121,30 +121,22 @@ Ext.define('CustomApp', {
                 this._moves[p].push(notRandom[x]);
                 if (p===players-1) { 
                    if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "keep going")) {
-                    //this._data[p][i]=[i, -10,this._moves[p][i] ];
-                    //this._data[p-1][i]=[i, -10,this._moves[p-1][i]];
-                    this._data[p][i]=[i, -10];
-                    this._data[p-1][i]=[i, -10];
+                    this._data[p][i]=[i, -10,this._moves[p][i]];
+                    this._data[p-1][i]=[i, -10,this._moves[p-1][i]];
                     
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "keep going")) {
-                    //this._data[p][i]=[i, -2,this._moves[p][i]];
-                    //this._data[p-1][i]=[i, 2,this._moves[p-1][i]];
-                    this._data[p][i]=[i, -2];
-                    this._data[p-1][i]=[i, 2];
+                    this._data[p][i]=[i, -2,this._moves[p][i]];
+                    this._data[p-1][i]=[i, 2,this._moves[p-1][i]];
                     
                    }
                    else if ((this._moves[p][i] == "keep going")&&(this._moves[p-1][i] === "swerve")) {
-                    //this._data[p][i]=[i, 2,this._moves[p][i]];
-                    //this._data[p-1][i]=[i, -2,this._moves[p-1][i]];
                     this._data[p][i]=[i, 2,this._moves[p][i]];
                     this._data[p-1][i]=[i, -2,this._moves[p-1][i]];
                    }
                    else if ((this._moves[p][i] == "swerve")&&(this._moves[p-1][i] === "swerve")) {
-                    //this._data[p][i]=[i, 0,this._moves[p][i]];
-                    //this._data[p-1][i]=[i, 0,this._moves[p-1][i]];
-                    this._data[p][i]=[i, 0];
-                    this._data[p-1][i]=[i, 0];
+                    this._data[p][i]=[i, 0,this._moves[p][i]];
+                    this._data[p-1][i]=[i, 0,this._moves[p-1][i]];
                    }
                 }    
             }
