@@ -21,15 +21,7 @@ Ext.define('CustomApp', {
        this._series = [];
        var c = Ext.create('Ext.Container', {
             items: [
-                {
-                    xtype  : 'rallybutton',
-                    text      : 'reload with new data',
-                    id: 'b1',
-                    handler: function() {
-                        that._updateChart();
-                    }
-                },
-                {
+                 {
                     xtype : 'grid',
                     title: 'matrix',
                     id: 'g',
@@ -41,9 +33,27 @@ Ext.define('CustomApp', {
                         { text: 'Keep Going', dataIndex: 'Keep Going'},
                         { text: 'Swerve', dataIndex: 'Swerve' }
                     ],
-            height: 100,
-            width: 307
+                    height: 100,
+                     width: 307
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'reload with new data',
+                    id: 'b1',
+                    margin: 10,
+                    handler: function() {
+                        that._updateChart();
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'I want to play',
+                    id: 'b2',
+                    handler: function() {
+                        that._playMyself();
+                    }
                 }
+               
             ]
     });
        this.add(c); 
@@ -189,5 +199,79 @@ Ext.define('CustomApp', {
           
         });
         this.down('#ch')._unmask(); 
+    },
+    
+    _playMyself:function(){
+        var that = this;
+        this._myMovesArray = [];
+        this._opponentsMovesArray = [];
+         
+        console.log("_playMyself, init this._myMovesArr",this._myMovesArray);
+        var controls = Ext.create('Ext.Container', {
+            items: [
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'keep going',
+                    id: 'b3',
+                    margin: 10,
+                    handler: function() {
+                        that._move('keep going');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'swerve',
+                    id: 'b4',
+                    margin: 10,
+                    handler: function() {
+                        that._move('swerve');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'almost random',
+                    id: 'b5',
+                    margin: 10,
+                    handler: function() {
+                        that._move('almost random');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'build chart of results',
+                    id: 'b6',
+                    margin: 10,
+                    handler: function() {
+                        that._loadDataOfInteractiveGame();
+                    }
+                },
+               
+            ]
+        });
+       this.add(controls);  
+    },
+    _move: function(move){
+        
+        if (move === "almost random") {
+            var keepGoingOrSwerve = ['keep going','swerve','swerve','swerve','swerve'];
+            var i = Math.floor(Math.random()*keepGoingOrSwerve.length);
+            this._myMovesArray.push(keepGoingOrSwerve[i]);
+            console.log("this._myMovesArray",this._myMovesArray);
+            var j = Math.floor(Math.random()*keepGoingOrSwerve.length);
+            this._opponentsMovesArray.push(keepGoingOrSwerve[j]);
+            console.log("this._opponentsMovesArray",this._opponentsMovesArray);
+        }
+        else {
+            this._myMovesArray.push(move);
+            console.log("this._myMovesArray",this._myMovesArray);
+            var keepGoingOrSwerve = ['keep going','swerve','swerve','swerve','swerve'];
+            var x = Math.floor(Math.random()*keepGoingOrSwerve.length);
+            this._opponentsMovesArray.push(keepGoingOrSwerve[x]);
+            console.log("this._opponentsMovesArray",this._opponentsMovesArray); 
+        }
+    },
+    _loadDataOfInteractiveGame: function(){
+        console.log("_loadDataOfInteractiveGame");
     }
+    
 });
