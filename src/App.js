@@ -138,6 +138,9 @@ Ext.define('CustomApp', {
 		title:{
 		    text: 'The Game Of Chicken'
 		},
+                subtitle:{
+		    text: '(Almost random data with weighted probability)'
+		},
 		xAxis: {
                     title: {
                         enabled: true,
@@ -205,7 +208,7 @@ Ext.define('CustomApp', {
         var that = this;
         this._myMovesArray = [];
         this._opponentsMovesArray = [];
-         
+        this._punish = false;
         console.log("_playMyself, init this._myMovesArr",this._myMovesArray);
         var controls = Ext.create('Ext.Container', {
             items: [
@@ -252,7 +255,7 @@ Ext.define('CustomApp', {
     },
     _move: function(move){
         
-        if (move === "almost random") {
+        if (move === 'almost random') {
             var keepGoingOrSwerve = ['keep going','swerve','swerve','swerve','swerve'];
             var i = Math.floor(Math.random()*keepGoingOrSwerve.length);
             this._myMovesArray.push(keepGoingOrSwerve[i]);
@@ -262,12 +265,29 @@ Ext.define('CustomApp', {
             console.log("this._opponentsMovesArray",this._opponentsMovesArray);
         }
         else {
+            if (this._punish === true) {
+                this._opponentsMovesArray.push('keep going');
+            }
+            else{
+                var keepGoingOrSwerve = ['keep going','swerve','swerve','swerve','swerve'];
+                var i = Math.floor(Math.random()*keepGoingOrSwerve.length);
+                this._opponentsMovesArray.push(keepGoingOrSwerve[i]);   
+            }
+            console.log("this._opponentsMovesArray",this._opponentsMovesArray);
+            
             this._myMovesArray.push(move);
             console.log("this._myMovesArray",this._myMovesArray);
-            var keepGoingOrSwerve = ['keep going','swerve','swerve','swerve','swerve'];
-            var x = Math.floor(Math.random()*keepGoingOrSwerve.length);
-            this._opponentsMovesArray.push(keepGoingOrSwerve[x]);
-            console.log("this._opponentsMovesArray",this._opponentsMovesArray); 
+            if (this._myMovesArray[this._myMovesArray.length-1] === 'keep going') {
+                //console.log(this._myMovesArray[this._myMovesArray.length-1]);
+                this._punish = true;
+                console.log('this._punish',this._punish);
+            }
+            else{
+                console.log(this._myMovesArray[this._myMovesArray.length-1]);
+                this._punish = false;
+                console.log('this._punish',this._punish);
+            }
+            
         }
     },
     _loadDataOfInteractiveGame: function(){
