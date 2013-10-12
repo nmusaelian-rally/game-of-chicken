@@ -3,12 +3,6 @@ Ext.define('CustomApp', {
     componentCls: 'app',
 
     launch: function() {
-        if (this.down("#ch")) {
-        console.log("chart exists");
-       }
-       else{
-        console.log("chart does not exists");
-       }
         var that = this;
         this._store = Ext.create('Ext.data.JsonStore', {
             autoLoad: true,
@@ -38,7 +32,7 @@ Ext.define('CustomApp', {
                 },
                 {
                     xtype  : 'rallybutton',
-                    text      : 'reload with new data',
+                    text      : 'reload with new almost readom data',
                     id: 'b1',
                     margin: 10,
                     handler: function() {
@@ -52,7 +46,56 @@ Ext.define('CustomApp', {
                     handler: function() {
                         that._playMyself();
                     }
+                },
+                {
+                    xtype: 'container',
+                    id: 'bToPlay',
+                    //disabled: true,
+                    width: 600,
+                    items: [
+                        {
+                    xtype  : 'rallybutton',
+                    text      : 'keep going',
+                    disabled: true,
+                    id: 'b3',
+                    margin: 10,
+                    handler: function() {
+                        that._move('keep going');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'swerve',
+                    disabled: true,
+                    id: 'b4',
+                    margin: 10,
+                    handler: function() {
+                        that._move('swerve');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'almost random',
+                    disabled: true,
+                    id: 'b5',
+                    margin: 10,
+                    handler: function() {
+                        that._move('almost random');
+                    }
+                },
+                {
+                    xtype  : 'rallybutton',
+                    text      : 'build chart of results',
+                    disabled: true,
+                    id: 'b6',
+                    margin: 10,
+                    handler: function() {
+                        that._loadDataOfInteractiveGame();
+                    }
                 }
+                    ]
+                },
+                
                
             ]
     });
@@ -129,7 +172,8 @@ Ext.define('CustomApp', {
                 loadMask: false
             },
             id: 'ch',
-            height: 400,
+            //height: 300,
+            width: 600,
             chartConfig: {
                 chart:{
 		type: 'scatter',
@@ -158,6 +202,7 @@ Ext.define('CustomApp', {
                 },
                 allowDecimals: false
 		},
+                /*
                     legend: {
                     layout: 'vertical',
                     align: 'left',
@@ -167,7 +212,7 @@ Ext.define('CustomApp', {
                     floating: true,
                     backgroundColor: '#FFFFFF',
                     borderWidth: 1
-                },
+                },*/
                 tooltip: {
                         formatter: function() {
                             var info = this.series.name  + '<b> ' + this.point.config[2]  + '</b>' + '<br> ' + ' ' + 'round: <b>'+ this.x +'</b> payoff <b>'+ this.y +'</b>';
@@ -210,49 +255,12 @@ Ext.define('CustomApp', {
         this._opponentsMovesArray = [];
         this._punish = false;
         console.log("_playMyself, init this._myMovesArr",this._myMovesArray);
-        var controls = Ext.create('Ext.Container', {
-            items: [
-                {
-                    xtype  : 'rallybutton',
-                    text      : 'keep going',
-                    id: 'b3',
-                    margin: 10,
-                    handler: function() {
-                        that._move('keep going');
-                    }
-                },
-                {
-                    xtype  : 'rallybutton',
-                    text      : 'swerve',
-                    id: 'b4',
-                    margin: 10,
-                    handler: function() {
-                        that._move('swerve');
-                    }
-                },
-                {
-                    xtype  : 'rallybutton',
-                    text      : 'almost random',
-                    id: 'b5',
-                    margin: 10,
-                    handler: function() {
-                        that._move('almost random');
-                    }
-                },
-                {
-                    xtype  : 'rallybutton',
-                    text      : 'build chart of results',
-                    id: 'b6',
-                    margin: 10,
-                    handler: function() {
-                        that._loadDataOfInteractiveGame();
-                    }
-                },
-               
-            ]
-        });
-       this.add(controls);  
+        this.down('#b3').setDisabled(false);
+        this.down('#b4').setDisabled(false);
+        this.down('#b5').setDisabled(false);
+        this.down('#b6').setDisabled(false);
     },
+    
     _move: function(move){
         
         if (move === 'almost random') {
