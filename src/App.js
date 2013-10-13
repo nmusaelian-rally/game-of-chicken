@@ -267,6 +267,7 @@ Ext.define('CustomApp', {
                 var j = Math.floor(Math.random()*keepGoingOrSwerve.length);
                 this._opponentsMovesArray.push(keepGoingOrSwerve[j]);
                 console.log("this._opponentsMovesArray",this._opponentsMovesArray);
+                this._numberOfRounds--;  //*
             }
             else {
                 //determine the other player's move
@@ -294,6 +295,8 @@ Ext.define('CustomApp', {
                     console.log('this._punish',this._punish);
                 }
                 this._numberOfRounds--;
+                //*
+                /*
                 if (this._numberOfRounds==0) {
                     console.log("round is over");
                     this.down('#b2').setDisabled(false);
@@ -304,9 +307,22 @@ Ext.define('CustomApp', {
                     console.log('this._myMovesArray', this._myMovesArray);
                     console.log('this._opponentsMovesArray', this._opponentsMovesArray);
                     this._interactivePlay();    
-                }
+                }*/
             
             }
+            //post round logic added after if,else here:
+            //*
+            if (this._numberOfRounds==0) {
+                    console.log("round is over");
+                    this.down('#b2').setDisabled(false);
+                    this.down('#b3').setDisabled(true);
+                    this.down('#b4').setDisabled(true);
+                    this.down('#b5').setDisabled(true);
+                    this.down('#b6').setDisabled(false);
+                    console.log('this._myMovesArray', this._myMovesArray);
+                    console.log('this._opponentsMovesArray', this._opponentsMovesArray);
+                    this._interactivePlay();    
+                }
         }
     },
     
