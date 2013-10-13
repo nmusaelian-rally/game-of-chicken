@@ -376,11 +376,27 @@ Ext.define('CustomApp', {
 				})
         
         console.log("_interactiveSeries", this._interactiveSeries);
-        this._makeChartOfInteractiveGame();
+        //this._makeChartOfInteractiveGame();
+        this._updateChartOfInteractiveGame();
         
     },
     
+     _updateChartOfInteractiveGame: function(){
+        if (!this.down("#ch2")) {
+           console.log('iteractive chart does not exist');
+           this._makeChartOfInteractiveGame();
+       }
+       else{
+            console.log('iteractive chart exists');
+            this.down("#ch2").removeAll(); //not enough. series and data has to be emptied in the next two lines
+            this._series.length = 0;
+            this._data.length = 0;
+            this._makeChartOfInteractiveGame();
+       }
+    },
+    
         _makeChartOfInteractiveGame:function(){
+        console.log('_makeChartOfInteractiveGame');
         this.add(
         {
             xtype: 'rallychart',
