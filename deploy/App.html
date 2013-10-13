@@ -250,16 +250,11 @@ Ext.define('CustomApp', {
     
     _playMyself:function(){
         this._interactiveMoves = [[],[]];
-        /*
         var min = 4;
         var max = min*2;
-        this._range = {
-            min: min,
-            max: max
-        };
-        */
-        //this._numberOfRounds = Math.floor((Math.random()*max)+min); //
-        this._numberOfRounds = 4;
+        this._numberOfRounds = Math.floor(Math.random() * (max - min + 1)) + min;
+        this._rounds = this._numberOfRounds
+        //this._numberOfRounds = 4;
         console.log("this._numberOfRounds:",this._numberOfRounds);
         this._myMovesArray = [];
         this._opponentsMovesArray = [];
@@ -332,7 +327,6 @@ Ext.define('CustomApp', {
         var players = 2;
         var playersArr = ['You', 'Player 2'];
         this._interactiveData = [[],[]];
-        var rounds = 4;
         this._interactiveMoves = [[],[]];
         for (var i=0;i<this._opponentsMovesArray.length;i++) {
             this._interactiveMoves[1][i] = this._opponentsMovesArray[i];
@@ -341,17 +335,9 @@ Ext.define('CustomApp', {
             this._interactiveMoves[0][i] = this._myMovesArray[i];
         }
         
-        /* //test this._interactiveMoves array
-        for (var i=0;i<this._interactiveMoves.length;i++) {
-            for (var j=0;j<this._interactiveMoves[i].length;j++) {
-                console.log('this._interactiveMoves[i][j]',this._interactiveMoves[i][j]);
-            }
-        }
-        console.log('this._interactiveMoves[1][3]',this._interactiveMoves[1][3]);
-        */
         
         for (var p=0;p<players;p++) {
-            for (var i = 0; i<rounds; i++) {
+            for (var i = 0; i<this._rounds; i++) {
                 if (p===players-1) { 
                    if ((this._interactiveMoves[p][i] == "keep going")&&(this._interactiveMoves[p-1][i] === "keep going")) {
                     this._interactiveData[p][i]=[i, -10,this._interactiveMoves[p][i]];
@@ -386,7 +372,6 @@ Ext.define('CustomApp', {
 				})
         
         console.log("_interactiveSeries", this._interactiveSeries);
-        //this._makeChartOfInteractiveGame();
         this._updateChartOfInteractiveGame();
         
     },
@@ -406,7 +391,6 @@ Ext.define('CustomApp', {
     },
     
         _makeChartOfInteractiveGame:function(){
-        console.log('_makeChartOfInteractiveGame');
         this.add(
         {
             xtype: 'rallychart',
@@ -478,12 +462,7 @@ Ext.define('CustomApp', {
           
         });
         this.down('#ch2')._unmask(); 
-    },
-    
-    /*
-    _loadDataOfInteractiveGame: function(){
-        console.log("_loadDataOfInteractiveGame");
-    }*/
+    }
     
 });
             
